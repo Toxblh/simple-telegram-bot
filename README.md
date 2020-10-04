@@ -1,2 +1,2 @@
-# simple-telegram-bot
+# Simple telegram bot
 Simple bot for managing local chat
