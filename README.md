@@ -15,10 +15,10 @@ Thanks for help to [@ArtemisFaul](https://bitbucket.org/1024rk/)
 * Enjoy!
 
 
-## Roadmap 
-*
-*
-*
-*
-*
-
+## Roadmap
+* ~~Stickers~~
+* Echo "BAN" func
+* Showing private rules to the user
+* Hidden opportunity 
+* Deleting Anime Pictures?
+* Karma??
