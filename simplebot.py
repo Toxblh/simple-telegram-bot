@@ -30,7 +30,6 @@ dp = Dispatcher(bot)
 @dp.message_handler(
     IDFilter(chat_id=CHAT_ID),  # Add chat_id filter to handlers since we
                                 # don't need to handle all chats bot added
-    #commands=['start'])
     content_types=types.ContentTypes.NEW_CHAT_MEMBERS)
 async def welcome(message: types.Message):
     """
