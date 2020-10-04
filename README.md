@@ -9,7 +9,7 @@ Thanks for help to [@ArtemisFaul](https://bitbucket.org/1024rk/)
 [Aiogram docs](https://docs.aiogram.dev/en/latest/index.html)
 
 ## How to
-* Add our stikers id to id.txt
+* Add our stiker id's to id.txt
 * Run simplebot.py
 * ??????
 * Enjoy!
