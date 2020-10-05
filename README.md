@@ -3,7 +3,7 @@ Simple bot for managing local chat was made by [Innsmouth-trip](https://t.me/Ork
 
 [Our telegram chat](https://t.me/linuxsucks)
 
-Thanks for help to [@ArtemisFaul](https://bitbucket.org/1024rk/) 
+Thanks for the help [@ArtemisFaul](https://bitbucket.org/1024rk/) 
 
 Аiogram is a pretty simple and fully asynchronous framework for Telegram Bot API written in Python 3.7 with asyncio and aiohttp.
 [Aiogram docs](https://docs.aiogram.dev/en/latest/index.html)
