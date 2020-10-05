@@ -1,5 +1,5 @@
 # Simple telegram bot
-Simple bot for managing local chat was made by [Innsmouth-trip](https://t.me/Orkid3a)
+The simple bot for managing a local chat was made by [Innsmouth-trip](https://t.me/Orkid3a)
 
 [Our telegram chat](https://t.me/linuxsucks)
 
