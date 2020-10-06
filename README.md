@@ -18,11 +18,15 @@ Thanks for the help [@ArtemisFaul](https://bitbucket.org/1024rk/)
 
 ## Roadmap
 * ~~Stickers~~
-* Echo "BAN" func
+* ~~Echo "BAN" func~~
+* Requirements or poetry
 * Showing private rules to the user
 * Hidden opportunity 
-* Deleting Anime Pictures?
-* Karma??
+* Antispam?
+* Antiflood?
+* Captcha?
+* Minigames
+
 
 
 ## MIT License
