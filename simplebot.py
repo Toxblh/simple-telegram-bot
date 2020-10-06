@@ -30,6 +30,7 @@ dp = Dispatcher(bot)
 @dp.message_handler(
     IDFilter(chat_id=CHAT_ID),  # Add chat_id filter to handlers since we
                                 # don't need to handle all chats bot added
+    #commands=['start'])
     content_types=types.ContentTypes.NEW_CHAT_MEMBERS)
 async def welcome(message: types.Message):
     """
@@ -41,7 +42,7 @@ async def welcome(message: types.Message):
     with open("id.txt") as f:
             sticker = random.choice(list(f.readlines()))
             sticker = sticker.rstrip()
-    await bot.send_sticker(message.chat.id, sticker, 'rb')
+    await bot.send_sticker(message.chat.id, sticker, 'rb') 
 
     markup = types.InlineKeyboardMarkup(row_width=2)
     item1 = types.InlineKeyboardButton("Правила", callback_data='rules')
@@ -70,6 +71,26 @@ async def rules(update: Union[types.CallbackQuery, types.Message]):
     await update.message.delete_reply_markup()
 
 
-if __name__ == '__main__':
+@dp.message_handler(lambda message: message.text.lower() in ("бан", "ban", ",fy", "<fy", "тебе бан"))
+async def echo_message(message: types.Message):
+    await message.reply("Жан Клод Вам Бан")
+
+@dp.message_handler(lambda message: message.text.lower() in ("лялих", "лялех", "люнекс", "линекс")) 
+async def echo_message(message: types.Message):
+    await message.reply("— Hello, this is Linus Torvalds, and I pronounce Linux as [ˈlɪnʊks].")
+
+@dp.message_handler(lambda message: message.text.lower() in ("Блина", "блина", "ну блина"))
+async def echo_message(message: types.Message):
+    await message.reply("«Индекс блина» в России за год снизился на 9%")
+
+@dp.message_handler(lambda message: message.text.lower() in ("key", "лул"))
+async def echo_message(message: types.Message):
+    await message.reply("https://ic.pics.livejournal.com/ibigdan/8161099/6224515/6224515_original.jpg")
+
+
+
+
+
+if __name__ == '__main__':    
 
     executor.start_polling(dp, skip_updates=True)
