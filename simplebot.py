@@ -3,13 +3,11 @@ Simple bot for managing local chat
 """
 import random
 import os
+import re
 from typing import Union
-
+from dotenv import load_dotenv
 from aiogram import Bot, Dispatcher, types, executor
 from aiogram.dispatcher.filters.builtin import IDFilter
-
-CHAT_ID = -chat_id
-TOKEN = "TO:KEN"
 
 WELCOME_TEXT = """Приветствуем тебя в Linux Sucks, <b>{}</b>!
 Мы здесь чтобы спорить о *nix системах, делиться опытом, просто общаться и иногда решать проблемы и помогать друг другу. Присоединяйся и развивайся с нами!"""
@@ -22,6 +20,12 @@ RULES_TEXT = """<b>Правила LinuxSucks</b>
 5. Любой спам / флуд / шитпостинг запрещены.
 6. Любые проявления нетерпимости ставят вас под угрозу бана, имейте это ввиду.
 Вопросы задавать можно, но стоит научиться делать это правильно - https://nometa.xyz/"""
+
+project_folder = os.path.expanduser('./')  
+load_dotenv(os.path.join(project_folder, '.env'))
+
+CHAT_ID = os.getenv("CHATID")
+TOKEN = str(os.getenv("TOKEN"))
 
 bot = Bot(token=TOKEN,
           parse_mode="HTML")
@@ -70,27 +74,21 @@ async def rules(update: Union[types.CallbackQuery, types.Message]):
     await update.answer()
     await update.message.delete_reply_markup()
 
-
-@dp.message_handler(lambda message: message.text.lower() in ("бан", "ban", ",fy", "<fy", "тебе бан"))
+@dp.message_handler(lambda message: message.text.lower() )
 async def echo_message(message: types.Message):
-    await message.reply("Жан Клод Вам Бан")
 
-@dp.message_handler(lambda message: message.text.lower() in ("лялих", "лялех", "люнекс", "линекс")) 
-async def echo_message(message: types.Message):
-    await message.reply("— Hello, this is Linus Torvalds, and I pronounce Linux as [ˈlɪnʊks].")
+    wordsban = ["бан", "ban", ",fy", "<fy", "тебе бан"]
+    wordlin = ["лялих", "лялех", "люнекс", "линекс"]
+    word_blin = ["Блина", "блина", "ну блина"]
 
-@dp.message_handler(lambda message: message.text.lower() in ("Блина", "блина", "ну блина"))
-async def echo_message(message: types.Message):
-    await message.reply("«Индекс блина» в России за год снизился на 9%")
-
-@dp.message_handler(lambda message: message.text.lower() in ("key", "лул"))
-async def echo_message(message: types.Message):
-    await message.reply("https://ic.pics.livejournal.com/ibigdan/8161099/6224515/6224515_original.jpg")
-
-
-
-
+    array =  message.text.split(" ")
+    for el in array:
+        if el in wordsban:
+            return await message.reply("Жан Клод Вам Бан")
+        if el in wordlin:
+            return await message.reply("— Hello, this is Linus Torvalds, and I pronounce Linux as [ˈlɪnʊks].")
+        if el in word_blin:
+            return await message.reply("«Индекс блина» в России за год снизился на 9%")
 
 if __name__ == '__main__':    
-
     executor.start_polling(dp, skip_updates=True)
