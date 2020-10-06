@@ -9,7 +9,7 @@ Thanks for the help [@ArtemisFaul](https://bitbucket.org/1024rk/)
 [Aiogram docs](https://docs.aiogram.dev/en/latest/index.html)
 
 ## How to
-* Add chat id & token to simplebot.py
+* Add chat id & token to .env
 * Add our stiker id's to id.txt
 * Run simplebot.py
 * ??????
