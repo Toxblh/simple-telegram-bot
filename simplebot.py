@@ -9,6 +9,15 @@ from dotenv import load_dotenv
 from aiogram import Bot, Dispatcher, types, executor
 from aiogram.dispatcher.filters.builtin import IDFilter
 
+#  Конструируем где-то вверху файла триггеры
+triggers = {
+    ("линукс", "лялекс", "луних", "лялех", "люнех", "люникс", "линех", "lalix", "linups", "линупс", "линх", "люнекс"): "— Hello, this is Linus Torvalds, and I pronounce Linux as [ˈlɪnʊks].",
+    ("бан", "ban", ",fy"): "Жан Клод Вам Бан",
+    ("блина",): "«Индекс блина» в России за год упал на 9%",
+    ("manjaro", "манджаро", "манжаро", "манжара", "манджара"): "Короче, Username, я тебя в чате приютил, но в благородство играть не буду: поставь лучше арч — и мы в расчете. Заодно посмотрим, как быстро у тебя башка после такого дистра прояснится. А по твоей теме даже разузнать не попытаюсь. Хрен его знает, на кой ляд тебе эта манжара сдалась, но я в чужие дела не лезу, хочешь юзать, значит юзай, тут не со мной консультироваться надо...",
+
+}
+
 WELCOME_TEXT = """Приветствуем тебя в Linux Sucks, <b>{}</b>!
 Мы здесь чтобы спорить о *nix системах, делиться опытом, просто общаться и иногда решать проблемы и помогать друг другу. Присоединяйся и развивайся с нами!"""
 RULES_TEXT = """<b>Правила LinuxSucks</b>
@@ -74,21 +83,13 @@ async def rules(update: Union[types.CallbackQuery, types.Message]):
     await update.answer()
     await update.message.delete_reply_markup()
 
-@dp.message_handler(lambda message: message.text.lower() )
-async def echo_message(message: types.Message):
-
-    wordsban = ["бан", "ban", ",fy", "<fy", "тебе бан"]
-    wordlin = ["лялих", "лялех", "люнекс", "линекс"]
-    word_blin = ["Блина", "блина", "ну блина"]
-
-    array =  message.text.split(" ")
-    for el in array:
-        if el in wordsban:
-            return await message.reply("Жан Клод Вам Бан")
-        if el in wordlin:
-            return await message.reply("— Hello, this is Linus Torvalds, and I pronounce Linux as [ˈlɪnʊks].")
-        if el in word_blin:
-            return await message.reply("«Индекс блина» в России за год снизился на 9%")
+#  Хэндлер триггеров собственно
+@dp.message_handler(lambda msg: any([y in msg.text.lower() for x in triggers.keys() for y in x]))
+async def reply_to_trigger(message):
+    for trigger in triggers.keys():
+        for variation in trigger:
+            if variation in message.text.lower():
+                await message.reply(triggers[trigger])
 
 if __name__ == '__main__':    
     executor.start_polling(dp, skip_updates=True)
