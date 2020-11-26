@@ -22,6 +22,37 @@ CHAT_FILTER = IDFilter(chat_id=CHAT_ID)
 bot = Bot(token=TOKEN, parse_mode="HTML")
 dp = Dispatcher(bot)
 
+users = []
+
+
+# USERS
+def reset_users():
+    users.clear()
+
+
+def add_new_user(user):
+    users.append(user)
+
+
+def remove_user_by_user_id(user_id):
+    users[:] = [user for user in users if user.get('user_id') != user_id]
+
+
+def is_user_exist(user_id):
+    return any(user['user_id'] == user_id for user in users)
+
+
+def get_user_by_user_id(user_id):
+    if is_user_exist(user_id):
+        return next(user for user in users if user['user_id'] == user_id)
+    else:
+        return False
+
+
+async def give_a_ban(user_id, time):
+    await bot.answer_callback_query("Ну шо тоби пизда")
+    await bot.restrict_chat_member(CHAT_ID, user_id, until_date=time.time() + time)
+
 
 # Сам код бота
 # Новый юзер
@@ -31,9 +62,11 @@ async def welcome(message: types.Message):
         return
 
     new_member = message.new_chat_members[0]
-    settings.new_user_name = new_member.first_name
-    settings.new_user_id = new_member.id
-    settings.message_id = message.message_id + 1
+    add_new_user({
+        'user_name': new_member.first_name,
+        'user_id': new_member.id,
+        'message_id': message.message_id + 1
+    })
 
     await bot.restrict_chat_member(CHAT_ID, message.from_user.id)
 
@@ -50,13 +83,11 @@ async def welcome(message: types.Message):
 # Снимаем мут с нового пользователя и удаляем сообщение с капчей
 @dp.callback_query_handler(CHAT_FILTER, text="unmute_new_user")
 async def unmute_new_user(update: Union[types.CallbackQuery, types.Message]):
-    print(update.from_user.id)
-    print(settings.new_user_id)
-
-    if int(update.from_user.id) == int(settings.new_user_id):
-        # message = update
+    if is_user_exist(update.from_user.id):
         await bot.delete_message(CHAT_ID, settings.message_id)
         await bot.restrict_chat_member(CHAT_ID, settings.new_user_id, permissions={"can_send_messages": True, "can_send_media_messages": True, "can_send_polls": True, "can_send_other_messages": True, "can_add_web_page_previews": True, "can_invite_users": True, "can_pin_messages": True})
+
+        user = get_user_by_user_id(update.from_user.id)
 
         sticker = random.choice(settings.stikers)
         sticker = sticker.rstrip()
@@ -67,29 +98,23 @@ async def unmute_new_user(update: Union[types.CallbackQuery, types.Message]):
         item1 = types.InlineKeyboardButton("Правила", callback_data='rules')
         markup.add(item1)
 
-        await bot.send_message(CHAT_ID, settings.welcome_text.format(settings.new_user_id, settings.new_user_name), reply_markup=markup)
+        await bot.send_message(CHAT_ID, settings.welcome_text.format(user.get('user_id'), user.get('user_name')), reply_markup=markup)
 
-        settings.message_id = 0
-        settings.new_user_id = 0
-        settings.new_user_name = "none"
+        remove_user_by_user_id(update.from_user.id)
 
     else:
-        # message = update
-        await bot.answer_callback_query("Ну шо тоби пизда")
-        await bot.restrict_chat_member(CHAT_ID, update.from_user.id, until_date=time.time() + 2000)
+        await give_a_ban(update.from_user.id, 2000)
 
 
 @dp.callback_query_handler(CHAT_FILTER, text="kik_new_user")
 async def kik_new_user(update: Union[types.CallbackQuery, types.Message]):
-    if int(update.from_user.id) == int(settings.new_user_id):
-        # message = update
-        await bot.delete_message(CHAT_ID, settings.message_id)
-        await bot.kick_chat_member(CHAT_ID, settings.new_user_id)
+    if is_user_exist(update.from_user.id):
+        user = get_user_by_user_id(update.from_user.id)
+        await bot.delete_message(CHAT_ID, user.get('message_id'))
+        await bot.kick_chat_member(CHAT_ID, user.get('user_id'))
         await bot.send_message(CHAT_ID, "Это оказался бот и мне его пришлось забанить")
     else:
-        # message = update
-        await bot.answer_callback_query("Ну шо тоби пизда")
-        await bot.restrict_chat_member(CHAT_ID, update.from_user.id, until_date=time.time() + 2000)
+        await give_a_ban(update.from_user.id, 2000)
 
 
 # Правила
@@ -100,8 +125,6 @@ async def rules(update: Union[types.CallbackQuery, types.Message]):
 
     if isinstance(update, types.CallbackQuery):
         message = update.message
-
-    print(message.from_user.id)
 
     await bot.send_message(message.chat.id, settings.rules_text)
 
@@ -133,10 +156,6 @@ async def reply_to_trigger(update: Union[types.CallbackQuery, types.Message]):
 
                 else:
                     await message.reply(settings.triggers[trigger])
-
-
-def just_for_test(text):
-    return text
 
 
 if __name__ == '__main__':
