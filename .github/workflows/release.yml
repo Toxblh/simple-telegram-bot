@@ -13,6 +13,9 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: 3.8
+
+    - name: prepare environment
+      run: cp .env.example .env
       
     - name: Install tox
       run: pip install tox
