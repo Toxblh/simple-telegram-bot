@@ -9,12 +9,15 @@ Thanks for the help [@ArtemisFaul](https://bitbucket.org/1024rk/)
 [Aiogram docs](https://docs.aiogram.dev/en/latest/index.html)
 
 ## Start to code
-* Install tox with command `pip install tox`
 * `pip install -r requirements.txt`
 * `cp .env.example .env`
 * Set change `TOKEN` and `CHAT_ID` in `.env` to your
 * `python src/main.py`
 * You are awesome!
+
+## Testing
+* Install tox with command `pip install tox`
+* `tox` for start tests
 
 ## How to
 * Add chat id & token to .env

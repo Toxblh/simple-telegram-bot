@@ -47,7 +47,6 @@ def get_user_by_user_id(user_id):
 
 
 async def give_a_ban(user_id, milliseconds):
-    await bot.answer_callback_query("Ну шо тоби пизда")
     await bot.restrict_chat_member(
         CHAT_ID,
         user_id,
