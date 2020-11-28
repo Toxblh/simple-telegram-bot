@@ -8,6 +8,17 @@ Thanks for the help [@ArtemisFaul](https://bitbucket.org/1024rk/)
 Аiogram is a pretty simple and fully asynchronous framework for Telegram Bot API written in Python 3.7 with asyncio and aiohttp.
 [Aiogram docs](https://docs.aiogram.dev/en/latest/index.html)
 
+## Start to code
+* `pip install -r requirements.txt`
+* `cp .env.example .env`
+* Set change `TOKEN` and `CHAT_ID` in `.env` to your
+* `python src/main.py`
+* You are awesome!
+
+## Testing
+* Install tox with command `pip install tox`
+* `tox` for start tests
+
 ## How to
 * Add chat id & token to .env
 * Add our stiker id's to id.txt

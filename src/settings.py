@@ -1,8 +1,8 @@
 # Список id админов
-admins_id = [] # Сюда ID админов
+admins_id = []  # Сюда ID админов
 # Основные параметры
-bot_token = "Ваш токен бота"
-chat_id = "ID вашей группы"
+bot_token = "Ваш_токен_бота"
+chat_id = "ID_вашей_группы"
 # Время мута в секундах
 fun_mute_time = 30
 spam_mute_time = 3600
@@ -172,7 +172,7 @@ stikers = ["CAACAgIAAxkBAAEF2mVfSAd763n-FI5L2Vr8loOWtInJ0AACJAADqYi0DGfeAAFpEPTm
            "CAACAgIAAxkBAAIfTl9-_MCjvGaOR1-uMWz7r78C1NeHAALFAAOpiLQMbi2alcS1nTwbBA",
            "CAACAgIAAxkBAAIfUV9-_PAJL5coIFpyl3-1vwMAAWuQFQACxgADqYi0DBPrPjf031TzGwQ",
            "CAACAgIAAxkBAAIfVF9-_PrBb5N_CjphTNxJLyNiz3tkAALHAAOpiLQMRTZmWa1uL4obBA"]
-#Всякая буферная фигня
+# Всякая буферная фигня
 new_user_id = 0
 message_id = 0
 new_user_name = "none"
